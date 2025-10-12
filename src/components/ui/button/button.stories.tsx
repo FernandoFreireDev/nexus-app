@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { Heart } from 'lucide-react'
+import { Heart, ShoppingCart } from 'lucide-react'
 import type { ComponentProps } from 'react'
 
 import { fn } from 'storybook/test'
 
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 
 type MetaProps = ComponentProps<typeof Button> & { hasIcon?: boolean }
 
@@ -22,7 +22,7 @@ const meta = {
 			},
 		},
     hasIcon: {
-      constrol: { type: 'boolean' },
+      control: { type: 'boolean' },
     },
     size: {
       control: { type: 'select' },
@@ -31,6 +31,11 @@ const meta = {
     rounded: {
       control: { type: 'radio' },
       options: ['default', 'full']
+    },
+    variant: {
+      table: {
+        disable: true
+      }
     }
 	},
 	args: {
@@ -53,7 +58,9 @@ const meta = {
 
 export default meta
 
-type Story = StoryObj<MetaProps>
+type NotificationButtonProps = ComponentProps<typeof Button.Notification>
+
+type Story = StoryObj<MetaProps | NotificationButtonProps>
 
 export const Default: Story = {
 	args: {
@@ -96,4 +103,30 @@ export const Link: Story = {
 		children: 'Botão Link',
 		variant: 'link',
 	},
+}
+
+export const Notification: Story = {
+	args: {
+		children: <ShoppingCart />,
+		variant: 'ghost',
+    count: 9
+	},
+  argTypes: {
+    children: {
+      table: {
+        disable: true
+      }
+    },
+    hasIcon: {
+      table: {
+        disable: true
+      }
+    },
+    count: {
+      control: { type: 'number' }
+    }
+  },
+  render: (args: Story['args']) => (
+    <Button.Notification {...args} />
+  )
 }

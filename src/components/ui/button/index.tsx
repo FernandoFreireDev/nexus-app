@@ -39,7 +39,7 @@ const buttonVariants = cva(
 	},
 )
 
-function Button({
+function BaseButton({
 	className,
 	variant,
 	size,
@@ -60,5 +60,41 @@ function Button({
 		/>
 	)
 }
+
+interface NotificationButtonProps
+  extends React.ComponentProps<typeof BaseButton> {
+  count?: number
+}
+
+function NotificationButton({
+  count,
+  className,
+  children,
+  ...props
+}: NotificationButtonProps) {
+  const displayCount = count && count > 9 ? '9+' : count
+
+  return (
+    <BaseButton className={cn('relative', className)} {...props}>
+      {children}
+      {count !== undefined && count > 0 && (
+        <span
+          className={cn(
+            'absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-primary text-xs  w-5 h-5  font-semibold text-primary-foreground leading-1'
+          )}
+        >
+          {displayCount}
+        </span>
+      )}
+    </BaseButton>
+  )
+}
+
+type ButtonComponent = typeof BaseButton & {
+  Notification: typeof NotificationButton
+}
+
+const Button = BaseButton as ButtonComponent
+Button.Notification = NotificationButton
 
 export { Button, buttonVariants }
