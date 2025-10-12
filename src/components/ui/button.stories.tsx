@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Heart } from 'lucide-react'
+import type { ComponentProps } from 'react'
 
 import { fn } from 'storybook/test'
 
 import { Button } from '@/components/ui/button'
+
+type MetaProps = ComponentProps<typeof Button> & { hasIcon?: boolean }
 
 const meta = {
 	title: 'Button',
@@ -18,20 +21,45 @@ const meta = {
 				disable: true,
 			},
 		},
+    hasIcon: {
+      constrol: { type: 'boolean' },
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['default', 'sm', 'lg', 'icon'],
+    },
+    rounded: {
+      control: { type: 'radio' },
+      options: ['default', 'full']
+    }
 	},
 	args: {
 		onClick: fn(),
+    hasIcon: false,
+    size: 'default',
+    rounded: 'default'
 	},
-} satisfies Meta<typeof Button>
+  render: (args) => {
+		const { hasIcon, children, ...rest } = args
+
+		return (
+			<Button {...rest}>
+				{hasIcon && <Heart />}
+				{children}
+			</Button>
+		)
+	},
+} satisfies Meta<MetaProps>
 
 export default meta
 
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<MetaProps>
 
 export const Default: Story = {
 	args: {
 		children: 'Botão Padrão',
 		variant: 'default',
+    size: 'default'
 	},
 }
 
@@ -39,6 +67,13 @@ export const Secondary: Story = {
 	args: {
 		children: 'Botão Secundário',
 		variant: 'secondary',
+	},
+}
+
+export const Ghost: Story = {
+	args: {
+		children: 'Botão Fantasma',
+		variant: 'ghost',
 	},
 }
 
@@ -60,13 +95,5 @@ export const Link: Story = {
 	args: {
 		children: 'Botão Link',
 		variant: 'link',
-	},
-}
-
-export const Circular: Story = {
-	args: {
-		children: <Heart />,
-		variant: 'circle',
-		'aria-label': 'Adicionar aos favoritos',
 	},
 }

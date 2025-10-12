@@ -9,7 +9,8 @@
     "lint": "eslint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "PLAYWRIGHT_HTML_OPEN=never playwright test --reporter=html"
+    "test": "PLAYWRIGHT_HTML_OPEN=never playwright test --reporter=html",
+    "test:update": "playwright test --update-snapshots"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

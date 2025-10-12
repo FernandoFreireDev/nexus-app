@@ -44,12 +44,12 @@
 :root {
 	--radius: 0.625rem;
 	--background: oklch(1 0 0);
-	--foreground: oklch(0.129 0.042 264.695);
+	--foreground: hsl(210 10% 15%);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.129 0.042 264.695);
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.129 0.042 264.695);
-	--primary: oklch(68.614% 0.22433 142.654);
+	--primary: oklch(62.418% 0.16953 149.114);
 	--primary-foreground: oklch(0.984 0.003 247.858);
 	--secondary: oklch(25.197% 0.00003 271.152);
 	--secondary-foreground: oklch(0.984 0.003 247.858);
