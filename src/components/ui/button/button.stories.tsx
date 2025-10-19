@@ -4,16 +4,13 @@ import type { ComponentProps } from 'react'
 
 import { fn } from 'storybook/test'
 
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 
 type MetaProps = ComponentProps<typeof Button> & { hasIcon?: boolean }
 
 const meta = {
 	title: 'Button',
 	component: Button,
-	parameters: {
-		layout: 'centered',
-	},
 	tags: ['autodocs'],
 	argTypes: {
 		asChild: {
@@ -21,30 +18,30 @@ const meta = {
 				disable: true,
 			},
 		},
-    hasIcon: {
-      control: { type: 'boolean' },
-    },
-    size: {
-      control: { type: 'select' },
-      options: ['default', 'sm', 'lg', 'icon'],
-    },
-    rounded: {
-      control: { type: 'radio' },
-      options: ['default', 'full']
-    },
-    variant: {
-      table: {
-        disable: true
-      }
-    }
+		hasIcon: {
+			control: { type: 'boolean' },
+		},
+		size: {
+			control: { type: 'select' },
+			options: ['default', 'sm', 'lg', 'icon'],
+		},
+		rounded: {
+			control: { type: 'radio' },
+			options: ['default', 'full'],
+		},
+		variant: {
+			table: {
+				disable: true,
+			},
+		},
 	},
 	args: {
 		onClick: fn(),
-    hasIcon: false,
-    size: 'default',
-    rounded: 'default'
+		hasIcon: false,
+		size: 'default',
+		rounded: 'default',
 	},
-  render: (args) => {
+	render: (args) => {
 		const { hasIcon, children, ...rest } = args
 
 		return (
@@ -66,7 +63,7 @@ export const Default: Story = {
 	args: {
 		children: 'Botão Padrão',
 		variant: 'default',
-    size: 'default'
+		size: 'default',
 	},
 }
 
@@ -109,24 +106,22 @@ export const Notification: Story = {
 	args: {
 		children: <ShoppingCart />,
 		variant: 'ghost',
-    count: 9
+		count: 9,
 	},
-  argTypes: {
-    children: {
-      table: {
-        disable: true
-      }
-    },
-    hasIcon: {
-      table: {
-        disable: true
-      }
-    },
-    count: {
-      control: { type: 'number' }
-    }
-  },
-  render: (args: Story['args']) => (
-    <Button.Notification {...args} />
-  )
+	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
+		hasIcon: {
+			table: {
+				disable: true,
+			},
+		},
+		count: {
+			control: { type: 'number' },
+		},
+	},
+	render: (args: Story['args']) => <Button.Notification {...args} />,
 }
