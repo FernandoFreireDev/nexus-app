@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button'
 type MetaProps = ComponentProps<typeof Button> & { hasIcon?: boolean }
 
 const meta = {
-	title: 'Button',
 	component: Button,
 	tags: ['autodocs'],
 	argTypes: {

@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/input-group'
 
 const meta = {
-	title: 'Input Group',
 	component: InputGroup,
 	render: () => (
 		<InputGroup>
