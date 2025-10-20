@@ -31,33 +31,35 @@ function TopBar() {
 
 function Main() {
 	return (
-		<header className="flex justify-between items-center gap-4 w-full p-4 border-b-2">
-			<Image
-				src="/logo-horizontal-transparente.png"
-				alt="Logo vertical da nexus commerce"
-				width={150}
-				height={150}
-			/>
-			<InputGroup className="flex-1 rounded-full">
-				<InputGroupInput placeholder="Buscar produto, marca e muito mais..." />
-				<InputGroupAddon align="inline-end">
-					<InputGroupButton variant="ghost">
-						<Search />
-					</InputGroupButton>
-				</InputGroupAddon>
-			</InputGroup>
+		<header className="w-full p-4 border-b-2">
+			<div className="flex justify-between items-center gap-4 max-w-6xl mx-auto">
+				<Image
+					src="/logo-horizontal-transparente.png"
+					alt="Logo vertical da nexus commerce"
+					width={150}
+					height={150}
+				/>
+				<InputGroup className="flex-1 rounded-full">
+					<InputGroupInput placeholder="Buscar produto, marca e muito mais..." />
+					<InputGroupAddon align="inline-end">
+						<InputGroupButton variant="ghost">
+							<Search />
+						</InputGroupButton>
+					</InputGroupAddon>
+				</InputGroup>
 
-			<div className="flex justify-between items-center gap-1">
-				<Button variant="ghost">
-					<Heart />
-					Favoritos
-				</Button>
-				<Button variant="ghost">
-					<User /> Entrar
-				</Button>
-				<Button.Notification variant="ghost" count={9}>
-					<ShoppingCart />
-				</Button.Notification>
+				<div className="flex justify-between items-center gap-1">
+					<Button variant="ghost">
+						<Heart />
+						Favoritos
+					</Button>
+					<Button variant="ghost">
+						<User /> Entrar
+					</Button>
+					<Button.Notification variant="ghost" count={9}>
+						<ShoppingCart />
+					</Button.Notification>
+				</div>
 			</div>
 		</header>
 	)
@@ -96,16 +98,18 @@ function Categories() {
 	]
 
 	return (
-		<div className="flex justify-start items-center gap-4 py-2 px-4 bg-gray-100">
-			{categories.map((category) => (
-				<Link
-					key={category.title}
-					href={category.href}
-					className="hover:text-primary font-medium"
-				>
-					{category.title}
-				</Link>
-			))}
+		<div className="py-2 px-4 bg-gray-100">
+			<div className="flex justify-start items-center gap-4 max-w-6xl mx-auto">
+				{categories.map((category) => (
+					<Link
+						key={category.title}
+						href={category.href}
+						className="hover:text-primary font-medium"
+					>
+						{category.title}
+					</Link>
+				))}
+			</div>
 		</div>
 	)
 }
