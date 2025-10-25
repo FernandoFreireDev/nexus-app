@@ -31,7 +31,7 @@ type CarouselContextProps = {
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
-function useCarousel() {
+export function useCarousel() {
 	const context = React.useContext(CarouselContext)
 
 	if (!context) {
@@ -231,6 +231,112 @@ function CarouselNext({
 	)
 }
 
+function CarouselResettable({
+	children,
+	autoPlayDelay,
+}: {
+	children: React.ReactNode
+	autoPlayDelay: number
+}) {
+	const { api } = useCarousel()
+	const [progress, setProgress] = React.useState(0)
+	const timerRef = React.useRef<number>(null)
+
+	const updateProgress = React.useCallback(() => {
+		if (!api) return
+		const autoplay = api.plugins().autoplay
+		if (!autoplay) return
+
+		const timeUntilNext = autoplay.timeUntilNext()
+
+		if (typeof timeUntilNext === 'number') {
+			const timeElapsed = autoPlayDelay - timeUntilNext
+			let percentage = (timeElapsed / autoPlayDelay) * 100
+			percentage = Math.max(0, Math.min(100, percentage))
+			setProgress(percentage)
+		} else {
+			setProgress(0)
+		}
+	}, [api, autoPlayDelay])
+
+	React.useEffect(() => {
+		if (!api) return
+
+		const runTimer = () => {
+			updateProgress()
+			timerRef.current = window.requestAnimationFrame(runTimer)
+		}
+
+		const autoplay = api.plugins().autoplay
+
+		const onTimerSet = () => {
+			setProgress(0)
+			window.requestAnimationFrame(runTimer)
+		}
+
+		if (autoplay) {
+			api.on('autoplay:timerset', onTimerSet)
+			api.on('autoplay:play', runTimer)
+			api.on('autoplay:stop', () => {
+				if (timerRef.current) {
+					window.cancelAnimationFrame(timerRef.current)
+					timerRef.current = null
+				}
+			})
+			runTimer()
+		}
+
+		return () => {
+			if (autoplay) {
+				api.off('autoplay:timerset', onTimerSet)
+				api.off('autoplay:play', runTimer)
+				api.off('autoplay:stop', () => {})
+			}
+			if (timerRef.current) {
+				window.cancelAnimationFrame(timerRef.current)
+			}
+		}
+	}, [api, updateProgress])
+
+	const resetAutoplay = React.useCallback(() => {
+		if (!api) return
+		const autoplay = api.plugins().autoplay
+		if (autoplay && 'reset' in autoplay) {
+			autoplay.reset()
+			setProgress(0)
+		}
+	}, [api])
+
+	const scrollNextAndReset = () => {
+		api?.scrollNext()
+		resetAutoplay()
+	}
+
+	const scrollPrevAndReset = () => {
+		api?.scrollPrev()
+		resetAutoplay()
+	}
+	return (
+		<>
+			<div className="absolute bottom-3 left-1/2 w-40 ml-[-80px] h-1 rounded-full bg-white/20 z-10">
+				<div
+					className="h-full bg-white/60 rounded-full"
+					style={{ width: `${progress}%` }}
+				/>
+			</div>
+			{children}
+			<CarouselPrevious
+				className="left-4 bg-white/80 hover:bg-white"
+				onClick={scrollPrevAndReset}
+			/>
+			<CarouselNext
+				className="right-4 bg-white/80 hover:bg-white"
+				onClick={scrollNextAndReset}
+			/>
+		</>
+	)
+}
+
 export {
 	type CarouselApi,
 	Carousel,
@@ -238,4 +344,5 @@ export {
 	CarouselItem,
 	CarouselPrevious,
 	CarouselNext,
+	CarouselResettable,
 }

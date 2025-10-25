@@ -1,15 +1,16 @@
+import CategoriesGrid from '@/components/categories-grid'
+import FeaturesBar from '@/components/features-bar'
 import Header from '@/components/header'
 import HeroBanner from '@/components/hero-banner'
-import { Button } from '@/components/ui/button'
 
 export default function Home() {
 	return (
 		<>
 			<Header />
-			<HeroBanner />
 			<main>
-				<h1>Nexus Commerce</h1>
-				<Button>Get Started</Button>
+				<HeroBanner />
+				<FeaturesBar />
+				<CategoriesGrid />
 			</main>
 		</>
 	)
