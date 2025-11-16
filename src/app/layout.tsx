@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import '@/styles/globals.css'
+import { AppProvider } from '@/context/app-context'
 
 const nunito = Nunito({
 	variable: '--font-geist-sans',
@@ -18,8 +19,10 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang="pt-br">
-			<body className={`${nunito.variable} antialiased`}>{children}</body>
+		<html lang="pt">
+			<body className={`${nunito.variable} antialiased`}>
+				<AppProvider>{children}</AppProvider>
+			</body>
 		</html>
 	)
 }
